@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Jeppiaar Confessions - Anonymous Safe Space</title>
+    <meta name="description" content="Share your thoughts anonymously in a safe, judgment-free space">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS
+        // Replace with your actual EmailJS public key
+        emailjs.init('AuiQXjhSdqgs86ZiX'); // Replace with your public key
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation"></div>
+    
+    <!-- Floating Elements (Hidden on mobile for performance) -->
+    <div class="floating-elements">
+        <div class="float-element float-1">☕</div>
+        <div class="float-element float-2">😊</div>
+        <div class="float-element float-3">💝</div>
+        <div class="float-element float-4">⭐</div>
+        <div class="float-element float-5">🌟</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">Jeppiaar Confessions</h1>
+            <p class="subtitle">Anonymous thoughts, real connections 🤝</p>
+            
+            <!-- Animated Tagline -->
+            <div class="tagline-container">
+                <p class="animated-tagline" id="tagline">Your secrets, safely shared 💭</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Confession Counter -->
+            <div class="confession-counter">
+                <span class="counter-text">
+                    <span id="confession-count">247</span> confessions shared
+                </span>
+                <div class="counter-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <!-- Confession Form with Netlify Forms and EmailJS Integration -->
+            <div class="confession-card">
+                <!-- 
+                BACKEND SETUP INSTRUCTIONS:
+                
+                1. NETLIFY FORMS SETUP:
+                   - Form includes netlify attribute for automatic form handling
+                   - Hidden honeypot field for spam prevention
+                   - All form data automatically stored in Netlify dashboard
+                
+                2. EMAILJS SETUP:
+                   - Sign up at https://www.emailjs.com/
+                   - Create email service (Gmail, Outlook, etc.)
+                   - Create email template with variables: {{subject}}, {{confession_text}}, {{timestamp}}, {{device_info}}, {{char_count}}
+                   - Replace YOUR_EMAILJS_SERVICE_ID, YOUR_EMAILJS_TEMPLATE_ID, YOUR_EMAILJS_PUBLIC_KEY in both HTML and JS
+                   - Subject will be automatically set to "Con101"
+                
+                3. EMAIL TEMPLATE EXAMPLE:
+                   Subject: {{subject}}
+                   
+                   New confession received:
+                   
+                   Confession: {{confession_text}}
+                   
+                   Details:
+                   - Timestamp: {{timestamp}}
+                   - Character Count: {{char_count}}
+                   - Device Info: {{device_info}}
+                   
+                   This message was sent from Jeppiaar Confessions.
+                -->
+                <form 
+                    id="confession-form" 
+                    class="confession-form"
+                    name="confessions"
+                    method="POST" 
+                    netlify
+                    netlify-honeypot="bot-field"
+                    action="/success"
+                >
+                    <!-- Hidden Netlify fields -->
+                    <input type="hidden" name="form-name" value="confessions">
+                    <input type="hidden" name="subject" value="Con101">
+                    <input type="hidden" name="timestamp" id="timestamp-field">
+                    <input type="hidden" name="device-info" id="device-info-field">
+                    <input type="hidden" name="char-count" id="char-count-field">
+                    
+                    <!-- Honeypot field for spam prevention -->
+                    <p class="hidden">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
+                    <div class="form-header">
+                        <h2>Share Anonymously</h2>
+                        <div class="anonymous-badge">
+                            <span class="anonymous-icon">🔒</span>
+                            <span>100% Anonymous</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea 
+                            id="confession-text" 
+                            name="confession"
+                            class="confession-textarea" 
+                            placeholder="What's on your mind? Share your thoughts anonymously... 💭✨"
+                            maxlength="800"
+                            minlength="5"
+                            required
+                            autocomplete="off"
+                            autocorrect="on"
+                            spellcheck="true"
+                        ></textarea>
+                        
+                        <div class="textarea-footer">
+                            <div class="character-count">
+                                <span id="char-count">0</span> / 800 characters
+                            </div>
+                            <div class="privacy-notice">
+                                <span class="privacy-icon">🛡️</span>
+                                <span>Your identity is never tracked</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">Share Confession</span>
+                        <span class="btn-icon">💌</span>
+                        <div class="btn-loading hidden">
+                            <div class="loading-spinner"></div>
+                            <span>Sending...</span>
+                        </div>
+                        <div class="ripple"></div>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message hidden" id="success-message">
+                <div class="success-content">
+                    <div class="success-icon">✨</div>
+                    <h3>Confession Shared!</h3>
+                    <p>Your anonymous message has been safely received. Thank you for sharing your thoughts.</p>
+                    <button class="btn-secondary" onclick="hideSuccessMessage()">Share Another</button>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="error-message hidden" id="error-message">
+                <div class="error-content">
+                    <div class="error-icon">⚠️</div>
+                    <h3>Something went wrong</h3>
+                    <p id="error-text">Please try again in a moment.</p>
+                    <button class="btn-secondary" onclick="hideErrorMessage()">Try Again</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p>🌟 A safe space for authentic expression</p>
+                    <p class="footer-note">
+                        Posted by students, for students. Remember to be kind and respectful.
+                    </p>
+                    <p class="footer-tech">
+                        <small>Powered by Netlify Forms & EmailJS for secure message delivery</small>
+                    </p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">Preparing your safe space...</div>
+        </div>
+    </div>
+
+    <!-- Mobile Performance Optimization -->
+    <script>
+        // Disable animations on low-end devices
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
+            document.documentElement.classList.add('low-performance');
+        }
+        
+        // Reduce animations on slow connections
+        if ('connection' in navigator && navigator.connection.effectiveType === 'slow-2g') {
+            document.documentElement.classList.add('slow-connection');
+        }
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>
