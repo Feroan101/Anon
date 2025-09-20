@@ -29,7 +29,7 @@ const APP_DATA = {
     confessionSettings: {
         maxLength: 800,
         minLength: 5,
-        startingCount: 247
+        startingCount: 2
     }
 };
 
@@ -390,7 +390,7 @@ function getDeviceInfo() {
 }
 
 function generateSubmissionId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    return Date.now().toString(36) + Math.random().toString(36);
 }
 
 // EmailJS submission
@@ -412,6 +412,11 @@ async function submitToEmailJS(data) {
         EMAIL_CONFIG.serviceId,
         EMAIL_CONFIG.templateId,
         templateParams
+    );
+
+    emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, templateParams, EMAIL_CONFIG.publicKey).then(
+    (result) => { console.log("✅ Email sent!", result); },
+    (error) => { console.error("❌ Email not sent:", error); }
     );
     
     console.log('✅ EmailJS Success:', response);
