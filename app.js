@@ -48,7 +48,7 @@ const submitBtn = document.getElementById('submit-btn');
 const successMessage = document.getElementById('success-message');
 const errorMessage = document.getElementById('error-message');
 const loadingScreen = document.getElementById('loading-screen');
-const confessionCountElement = document.getElementById('confession-count');
+//const confessionCountElement = document.getElementById('confession-count');
 
 // Hidden form fields for backend integration
 const timestampField = document.getElementById('timestamp-field');
@@ -193,7 +193,7 @@ function initializeFormListeners() {
         if (e.key === 'Enter' && !e.shiftKey && window.innerWidth < 768) {
             e.preventDefault();
             confessionTextarea.value += '\n';
-            updateCharacterCount();
+            //updateCharacterCount();
             autoResizeTextarea();
         }
     });
@@ -424,7 +424,7 @@ function handleSuccessfulSubmission(confessionText) {
     
     // Increment counter with smooth animation
     confessionCount++;
-    updateConfessionCountWithAnimation();
+    //updateConfessionCountWithAnimation();
     
     // Store locally for persistence
     storeConfessionLocally({
@@ -504,7 +504,7 @@ function hideLoadingState() {
 }
 
 // Confession counter management - FIXED
-function loadConfessionCount() {
+/*function loadConfessionCount() {
     const stored = localStorage.getItem('confessionCount');
     if (stored) {
         confessionCount = parseInt(stored);
@@ -513,8 +513,9 @@ function loadConfessionCount() {
         confessionCountElement.textContent = confessionCount;
     }
     console.log('📊 Loaded confession count:', confessionCount);
-}
+}*/
 
+/*
 function updateConfessionCountWithAnimation() {
     console.log('🔢 Updating confession counter from', confessionCountElement.textContent, 'to', confessionCount);
     
@@ -570,6 +571,7 @@ function storeConfessionLocally(confession) {
         console.warn('⚠️ Could not store confession locally:', error);
     }
 }
+*/
 
 // Message management - FIXED
 function showSuccessMessage() {
@@ -835,7 +837,7 @@ window.addEventListener('beforeunload', function() {
 });
 
 // Development helpers (remove in production)
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+/*if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     window.debugApp = {
         getConfessions: () => JSON.parse(localStorage.getItem('confessions') || '[]'),
         clearData: () => {
@@ -862,4 +864,4 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         serviceId: EMAIL_CONFIG.serviceId,
         hasTemplate: EMAIL_CONFIG.templateId !== 'template_uiujhss'
     });
-}
+} */
