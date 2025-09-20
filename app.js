@@ -309,10 +309,6 @@ async function processSubmission(data) {
             console.log('EmailJS not configured or failed:', error.message);
             return { status: 'demo', message: 'EmailJS not configured - using demo mode' };
         }),
-        submitToNetlify(data).catch(error => {
-            console.log('Netlify submission failed:', error.message);
-            return { status: 'demo', message: 'Netlify fallback - using demo mode' };
-        })
     ]);
     
     console.log('✅ Submission processed successfully');
@@ -395,7 +391,12 @@ function generateSubmissionId() {
 
 // EmailJS submission
 async function submitToEmailJS(data) {
-    if (typeof emailjs === 'undefined' || EMAIL_CONFIG.serviceId === 'service_dvrelxi') {
+    if (
+        typeof emailjs === 'undefined' ||
+        !EMAIL_CONFIG.serviceId ||
+        !EMAIL_CONFIG.templateId ||
+        !EMAIL_CONFIG.publicKey
+    ) {
         throw new Error('EmailJS not configured');
     }
     
