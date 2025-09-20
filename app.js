@@ -414,40 +414,8 @@ async function submitToEmailJS(data) {
         EMAIL_CONFIG.templateId,
         templateParams
     );
-
-    emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, templateParams, EMAIL_CONFIG.publicKey).then(
-    (result) => { console.log("✅ Email sent!", result); },
-    (error) => { console.error("❌ Email not sent:", error); }
-    );
     
     console.log('✅ EmailJS Success:', response);
-    return response;
-}
-
-// Netlify Forms submission (fallback method)
-async function submitToNetlify(data) {
-    if (!confessionForm) {
-        throw new Error('Form not found');
-    }
-    
-    const formData = new FormData(confessionForm);
-    
-    // Ensure all hidden fields are set
-    formData.set('form-name', 'confessions');
-    formData.set('subject', data.subject);
-    formData.set('confession', data.confession_text);
-    
-    const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-    });
-    
-    if (!response.ok) {
-        throw new Error(`Netlify submission failed: ${response.status}`);
-    }
-    
-    console.log('✅ Netlify Forms Success');
     return response;
 }
 
@@ -485,8 +453,6 @@ function handleSubmissionError(error) {
     if (errorText) {
         if (error.message.includes('EmailJS')) {
             errorText.textContent = 'Email service temporarily unavailable. Your message was saved and will be processed.';
-        } else if (error.message.includes('Netlify')) {
-            errorText.textContent = 'Form submission failed. Please check your connection and try again.';
         } else {
             errorText.textContent = 'Something went wrong. Please try again in a moment.';
         }
