@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality
     startTaglineRotation();
     initializeFormListeners();
-    loadConfessionCount();
+    //loadConfessionCount();
     setupMobileOptimizations();
     
     // Add entrance animations with mobile consideration
