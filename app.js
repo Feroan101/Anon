@@ -423,7 +423,7 @@ function handleSuccessfulSubmission(confessionText) {
     console.log('🎉 Handling successful submission...');
     
     // Increment counter with smooth animation
-    confessionCount++;
+    //confessionCount++;
     //updateConfessionCountWithAnimation();
     
     // Store locally for persistence
@@ -442,7 +442,7 @@ function handleSuccessfulSubmission(confessionText) {
     // Analytics (if configured)
     trackConfessionSubmission();
     
-    console.log('✅ Confession submitted successfully! Counter:', confessionCount);
+    //console.log('✅ Confession submitted successfully! Counter:', confessionCount);
 }
 
 function handleSubmissionError(error) {
@@ -554,6 +554,7 @@ function updateConfessionCountWithAnimation() {
     
     requestAnimationFrame(animate);
 }
+*/
 
 function storeConfessionLocally(confession) {
     try {
@@ -571,7 +572,7 @@ function storeConfessionLocally(confession) {
         console.warn('⚠️ Could not store confession locally:', error);
     }
 }
-*/
+
 
 // Message management - FIXED
 function showSuccessMessage() {
